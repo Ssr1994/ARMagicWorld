@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{19ACADC6-620A-DAB4-449A-8FE096FCDBDF}") = "ARMagicWorld", "Assembly-CSharp.csproj", "{EBE27C04-15EA-345D-52D6-C219D8CAD125}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBE27C04-15EA-345D-52D6-C219D8CAD125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBE27C04-15EA-345D-52D6-C219D8CAD125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBE27C04-15EA-345D-52D6-C219D8CAD125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBE27C04-15EA-345D-52D6-C219D8CAD125}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
