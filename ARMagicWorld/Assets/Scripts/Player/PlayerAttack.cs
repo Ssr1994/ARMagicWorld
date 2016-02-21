@@ -45,7 +45,7 @@ public class PlayerAttack : MonoBehaviour
     void Update ()
     {
 		#if (UNITY_EDITOR && !GEARVR)
-		if (Input.GetMouseButton(0) && fireballTimer >= timeBetweenShot) {
+		if (Input.GetMouseButton(0)) {
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit enemyHit;
 			
