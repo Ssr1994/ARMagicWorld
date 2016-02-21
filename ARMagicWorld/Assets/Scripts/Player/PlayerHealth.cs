@@ -12,6 +12,8 @@ public class PlayerHealth : MonoBehaviour
     public float flashSpeed = 5f;
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
 	public float damageInterval = 1f;
+	public GameObject healEffect;
+	public Transform healEffectTransform;
 
 
 
@@ -22,6 +24,8 @@ public class PlayerHealth : MonoBehaviour
     bool isDead;
 	bool damaged;
 	float damageTimer;
+	int regularSwordDamage=10;
+	int powerfulSwordDamage=20;
 
     void Awake ()
     {
@@ -77,12 +81,17 @@ public class PlayerHealth : MonoBehaviour
 		if(( col.gameObject.CompareTag ("RegularSword") || col.gameObject.CompareTag ("PowerfulSword") ) && damageTimer>damageInterval && col.transform.root.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("attack_slice")){
 			if (col.gameObject.CompareTag ("RegularSword")) {
 				if (!isDead)
-					TakeDamage (10);
+					TakeDamage (regularSwordDamage);
 			} else if (col.gameObject.CompareTag ("PowerfulSword")) {
 				if (!isDead)
-					TakeDamage (20);
+					TakeDamage (powerfulSwordDamage);
 			}
 			damageTimer = 0f;
 		}
+	}
+
+	public void HealEffect(){
+		GameObject effect = Instantiate (healEffect, healEffectTransform.position, healEffectTransform.rotation) as GameObject;
+		effect.transform.parent = healEffectTransform;
 	}
 }

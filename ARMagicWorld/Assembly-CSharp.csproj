@@ -50,7 +50,14 @@
      <Compile Include="Assets\Scripts\Enemy\EnemyAttack.cs" />
      <Compile Include="Assets\Scripts\Enemy\EnemyHealth.cs" />
      <Compile Include="Assets\Scripts\Enemy\EnemyMovement.cs" />
+     <Compile Include="Assets\Scripts\Managers\BonusPickupManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\EnemyManager.cs" />
+     <Compile Include="Assets\Scripts\Managers\PickupManager.cs" />
      <Compile Include="Assets\Scripts\Managers\ScoreManager.cs" />
+     <Compile Include="Assets\Scripts\Pickup\BootController.cs" />
+     <Compile Include="Assets\Scripts\Pickup\HeartController.cs" />
+     <Compile Include="Assets\Scripts\Pickup\LightningController.cs" />
+     <Compile Include="Assets\Scripts\Pickup\PickupMovement.cs" />
      <Compile Include="Assets\Scripts\Player\Fireball.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerAttack.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerHealth.cs" />

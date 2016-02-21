@@ -20,11 +20,15 @@ public class PlayerAttack : MonoBehaviour
 	float fireballTimer;
 	Animation anim;
 	bool shotAnimated=false;
+	PlayerHealth playerHealth;
 
 	public GameObject target; // enemy to shoot
 	public GameObject Fireball;
+	public GameObject Shield;
+	public Transform shieldTransform;
 	public Transform fireballTransform;
 	public float timeBetweenShot = 1f;
+	public float meleeAttackRange = 2.5f;
 
     void Awake ()
     {
@@ -35,12 +39,13 @@ public class PlayerAttack : MonoBehaviour
 		fireballTimer = timeBetweenShot;
 		anim = GetComponent<Animation> ();
 		playerRigidbody = GetComponent<Rigidbody> ();
+		playerHealth = GetComponent<PlayerHealth> ();
 	}
 
     void Update ()
     {
 		#if (UNITY_EDITOR && !GEARVR)
-		if (Input.GetMouseButton(0)) {
+		if (Input.GetMouseButton(0) && fireballTimer >= timeBetweenShot) {
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit enemyHit;
 			
@@ -59,10 +64,15 @@ public class PlayerAttack : MonoBehaviour
 			}
 		}
 		#endif
-    
-		if (fireballTimer >= timeBetweenShot && target!=null) {
+
+		//condition that player can attack after time interval and there is target and target has health and player has health
+		if (fireballTimer >= timeBetweenShot && target!=null && target.GetComponent<EnemyHealth>().currentHealth>0 && playerHealth.currentHealth>0) {
 			fireballTimer = 0f;
-			AnimateShoot ();
+			Vector3 playerToEnemy = target.transform.position - transform.position;
+			if (playerToEnemy.magnitude > meleeAttackRange)
+				AnimateShoot ();
+			else
+				MeleeAttack ();
 		} else {
 			fireballTimer += Time.deltaTime;
 		}
@@ -77,11 +87,28 @@ public class PlayerAttack : MonoBehaviour
 	}
 		
 	void AnimateShoot(){
-		Vector3 playerToEnemy = target.transform.position - transform.position;
-		playerToEnemy.y = 0f;
-		playerRigidbody.MoveRotation (Quaternion.LookRotation (playerToEnemy));
+		TurnToEnemy ();
 		if (!anim.IsPlaying ("Skill01"))
 			anim.Play ("Skill01");
 		shotAnimated = true;
+	}
+
+	void MeleeAttack(){
+		TurnToEnemy ();
+		if (!anim.IsPlaying ("Attack")) {
+			anim.Play ("Attack");
+		}
+		Instantiate (Shield, shieldTransform.position, shieldTransform.rotation);
+		//target = null;
+	}
+
+	void TurnToEnemy(){
+		Vector3 playerToEnemy = target.transform.position - transform.position;
+		playerToEnemy.y = 0f;
+		playerRigidbody.MoveRotation (Quaternion.LookRotation (playerToEnemy));
+	}
+
+	public bool ShotAnimated(){
+		return shotAnimated;
 	}
 }

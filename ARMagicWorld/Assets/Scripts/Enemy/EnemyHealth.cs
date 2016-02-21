@@ -16,7 +16,7 @@ public class EnemyHealth : MonoBehaviour
     CapsuleCollider capsuleCollider;
     bool isDead;
     bool isSinking;
-
+	int wandDamage=20;
 
     void Awake ()
     {
@@ -83,5 +83,11 @@ public class EnemyHealth : MonoBehaviour
 
 	public bool IsDead(){
 		return isDead;
+	}
+
+	public void OnTriggerEnter(Collider col){
+		if (col.gameObject.CompareTag ("Wand") && col.transform.root.gameObject.GetComponent<Animation>().IsPlaying("Attack")) {
+			TakeDamage (wandDamage, new Vector3(0f,0f,0f));
+		}
 	}
 }

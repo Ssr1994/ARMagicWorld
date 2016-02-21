@@ -20,7 +20,7 @@ public class Fireball : MonoBehaviour {
 	void Update () {
 		timer += Time.deltaTime;
 		if (timer > DestroyTime)
-			Destroy (this);
+			Destroy (this.gameObject);
 
 		//instantiate effect
 		if (effect == null) {

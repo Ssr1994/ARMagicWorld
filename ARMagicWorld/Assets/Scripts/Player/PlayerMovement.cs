@@ -6,6 +6,8 @@ public class PlayerMovement : MonoBehaviour
 {
 	public float smooth = 0.1f;
 	public float boostTime = 20f;
+	public GameObject boostEffect;
+	public Transform boostEffectTransform;
 	//public Slider speedSlider;
 	//public GameObject speedUI;
 
@@ -19,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     float camRayLength = 100f; // how far from camera
 	float boostTimer;
 	float waypointPrecision = 0.5f;
+	PlayerAttack playerAttack;
 
     void Awake()
     {
@@ -30,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
 		dest = transform.position;
 		playerRigidbody = GetComponent<Rigidbody> ();
 		anim = GetComponent<Animation> ();
+		playerAttack = GetComponent<PlayerAttack> ();
     }
 
 	void FixedUpdate() // Build-in function called on every framerate update
@@ -86,12 +90,14 @@ public class PlayerMovement : MonoBehaviour
 		//turn and animate
 		Vector3 playerToMouse = dest - transform.position;
 		playerToMouse.y = 0f;
-		if (playerToMouse.sqrMagnitude > waypointPrecision*waypointPrecision && !anim.IsPlaying("Skill01")) {
+		if (playerToMouse.sqrMagnitude > waypointPrecision*waypointPrecision && !playerAttack.ShotAnimated()) {
 			
 			playerToMouse.y = 0f;
 			playerRigidbody.MoveRotation (Quaternion.LookRotation (playerToMouse));
 			if (!anim.IsPlaying ("Run"))
 				anim.Play ("Run");
+			//deactive melee attack while running
+			playerAttack.target = null;
 
 			#if !GEARVR
 			transform.position = Vector3.MoveTowards (transform.position, dest, smooth);
@@ -105,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
 
 		} else {
 			dest = transform.position;
-			if(!anim.IsPlaying("idle2")&&!anim.IsPlaying("Skill01"))
+			if(!anim.IsPlaying("idle2") && !anim.IsPlaying("Skill01") && !anim.IsPlaying("Attack"))
 				anim.Play ("idle2");
 		}
 	}
@@ -114,5 +120,7 @@ public class PlayerMovement : MonoBehaviour
 		boostTimer = boostTime;
 		smooth *= 1.5f;
 		//speedUI.SetActive (true);
+		GameObject effect = Instantiate (boostEffect, boostEffectTransform.position, boostEffectTransform.rotation) as GameObject;
+		effect.transform.parent = boostEffectTransform;
 	}
 }
