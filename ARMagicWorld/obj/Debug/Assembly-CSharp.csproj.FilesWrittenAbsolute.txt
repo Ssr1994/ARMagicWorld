@@ -1,0 +1,17 @@
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/UnityEngine.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/UnityEditor.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/Mono.Cecil.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/Unity.DataContract.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/Mono.Cecil.Mdb.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/obj/Debug/Assembly-CSharp.dll
+/Users/baixiao/Desktop/ARMagicWorld/ARMagicWorld/obj/Debug/Assembly-CSharp.dll.mdb

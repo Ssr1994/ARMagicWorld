@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+
+
     float timer;
 	float flareTimer=0;
     Ray shootRay;
@@ -15,12 +17,25 @@ public class PlayerAttack : MonoBehaviour
 	Rigidbody playerRigidbody;
 	float effectsDisplayTime;
 	float camRayLength = 100f;
+	float fireballTimer;
+	Animation anim;
+	bool shotAnimated=false;
+
 	public GameObject target; // enemy to shoot
+	public GameObject Fireball;
+	public Transform fireballTransform;
+	public float timeBetweenShot = 1f;
 
     void Awake ()
     {
         shootableMask = LayerMask.GetMask ("Shootable");
     }
+
+	void Start(){
+		fireballTimer = timeBetweenShot;
+		anim = GetComponent<Animation> ();
+		playerRigidbody = GetComponent<Rigidbody> ();
+	}
 
     void Update ()
     {
@@ -29,8 +44,9 @@ public class PlayerAttack : MonoBehaviour
 			Ray camRay = Camera.main.ScreenPointToRay (Input.mousePosition);
 			RaycastHit enemyHit;
 			
-			if (Physics.Raycast (camRay, out enemyHit, camRayLength, shootableMask) && enemyHit.collider.gameObject.tag == "Enemy")
+			if (Physics.Raycast (camRay, out enemyHit, camRayLength, shootableMask) && enemyHit.collider.gameObject.tag == "Enemy"){
 				target = enemyHit.collider.gameObject;
+			}
 		}
 		#elif ((UNITY_ANDROID || UNITY_IOS) && !GEARVR)
 		foreach (Touch touch in Input.touches) {
@@ -43,5 +59,29 @@ public class PlayerAttack : MonoBehaviour
 			}
 		}
 		#endif
-    }
+    
+		if (fireballTimer >= timeBetweenShot && target!=null) {
+			fireballTimer = 0f;
+			AnimateShoot ();
+		} else {
+			fireballTimer += Time.deltaTime;
+		}
+		//instantiate the fireball
+		if (shotAnimated && !anim.IsPlaying("Skill01")) {
+			Vector3 playerToEnemy = target.transform.position - transform.position;
+			GameObject fireball = Instantiate (Fireball, fireballTransform.position, Quaternion.LookRotation (playerToEnemy)) as GameObject;
+			fireball.GetComponent<Fireball>().Target = target;
+			target = null;
+			shotAnimated = false;
+		}
+	}
+		
+	void AnimateShoot(){
+		Vector3 playerToEnemy = target.transform.position - transform.position;
+		playerToEnemy.y = 0f;
+		playerRigidbody.MoveRotation (Quaternion.LookRotation (playerToEnemy));
+		if (!anim.IsPlaying ("Skill01"))
+			anim.Play ("Skill01");
+		shotAnimated = true;
+	}
 }

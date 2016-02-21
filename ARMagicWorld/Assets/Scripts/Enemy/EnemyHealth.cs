@@ -11,8 +11,8 @@ public class EnemyHealth : MonoBehaviour
 
     Animator anim;
     AudioSource enemyAudio;
-    ParticleSystem hitParticles;
-	ParticleSystem deathParticles;
+    //ParticleSystem hitParticles;
+	//ParticleSystem deathParticles;
     CapsuleCollider capsuleCollider;
     bool isDead;
     bool isSinking;
@@ -22,9 +22,9 @@ public class EnemyHealth : MonoBehaviour
     {
         anim = GetComponent <Animator> ();
         enemyAudio = GetComponent <AudioSource> ();
-        ParticleSystem[] temp = GetComponentsInChildren <ParticleSystem> ();
-		hitParticles = temp [0];
-		deathParticles = temp [1];
+        //ParticleSystem[] temp = GetComponentsInChildren <ParticleSystem> ();
+		//hitParticles = temp [0];
+		//deathParticles = temp [1];
         capsuleCollider = GetComponent <CapsuleCollider> ();
 
         currentHealth = startingHealth;
@@ -44,12 +44,12 @@ public class EnemyHealth : MonoBehaviour
             return;
 
         enemyAudio.Play ();
-
+		anim.SetTrigger ("damaged");
         currentHealth -= amount;
             
-        hitParticles.transform.position = hitPoint;
-		hitParticles.Simulate (0.01f); // Maybe a bug in unity
-		hitParticles.Play ();
+        //hitParticles.transform.position = hitPoint;
+		//hitParticles.Simulate (0.01f); // Maybe a bug in unity
+		//hitParticles.Play ();
 
         if(currentHealth <= 0)
             Death ();
@@ -60,12 +60,12 @@ public class EnemyHealth : MonoBehaviour
     {
         isDead = true;
 
-		deathParticles.transform.position = transform.position;
-		deathParticles.Play ();
+		//deathParticles.transform.position = transform.position;
+		//deathParticles.Play ();
 
         capsuleCollider.isTrigger = true;
 
-        anim.SetTrigger ("Dead");
+        anim.SetTrigger ("dead");
 
         enemyAudio.clip = deathClip;
         enemyAudio.Play ();
