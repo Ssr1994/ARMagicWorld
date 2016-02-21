@@ -6,8 +6,7 @@ public class LightningController : MonoBehaviour {
 	public GameObject lightningStrike;
 	public GameObject lightningBlast;
 	public GameObject effectObject=null;
-	public float strikerOffset=2f;
-
+	public int strikeDamage = 100;
 
 	// Use this for initialization
 	void Start () {
@@ -27,12 +26,12 @@ public class LightningController : MonoBehaviour {
 			//ligtning strike
 			GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 			foreach (GameObject enemy in enemies) {
-				GameObject strike = Instantiate (lightningStrike, enemy.transform.position-enemy.transform.up*strikerOffset, Quaternion.identity) as GameObject;
-				GameObject blast = Instantiate (lightningBlast, enemy.transform.position-enemy.transform.up*strikerOffset, Quaternion.identity) as GameObject;
+				GameObject strike = Instantiate (lightningStrike, enemy.transform.position-enemy.transform.up*0.15f, Quaternion.identity) as GameObject;
+				GameObject blast = Instantiate (lightningBlast, enemy.transform.position, Quaternion.identity) as GameObject;
 				strike.transform.parent = enemy.transform;
 				blast.transform.parent = enemy.transform;
 				EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth> ();
-				enemyHealth.TakeDamage (enemyHealth.currentHealth, new Vector3(0f,0f,0f));
+				enemyHealth.TakeDamage (strikeDamage);
 			}
 			Destroy (gameObject);
 		}

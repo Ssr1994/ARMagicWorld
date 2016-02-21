@@ -24,9 +24,10 @@ public class EnemyMovement : MonoBehaviour
     void Update ()
     {
 		if (enemyHealth.currentHealth > 0 && playerHealth.currentHealth > 0 && anim.GetCurrentAnimatorStateInfo(0).IsName("walk")) {
+			nav.enabled = true;
 			nav.SetDestination (player.position);
-		} else if(playerHealth.currentHealth <= 0) {
-				nav.enabled = false;
+		} else {
+			nav.enabled = false;
 		}
     }
 

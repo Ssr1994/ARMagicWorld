@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviour
     public AudioClip deathClip;
     public float flashSpeed = 5f;
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
-	public float damageInterval = 1f;
+	public float damageInterval = 0.3f;
 	public GameObject healEffect;
 	public Transform healEffectTransform;
 
@@ -51,12 +51,16 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage (int amount)
     {
+		if (isDead)
+			return;
         damaged = true;
         currentHealth -= amount;
         //healthSlider.value = currentHealth;
         playerAudio.Play ();
-		if (!anim.IsPlaying ("Wound"))
+		if (!anim.IsPlaying ("Wound")) {
 			anim.Play ("Wound");
+			Debug.Log("Wounded");
+		}
         if(currentHealth <= 0 && !isDead)
             Death ();
     }
@@ -80,11 +84,9 @@ public class PlayerHealth : MonoBehaviour
 	public void OnTriggerEnter(Collider col){
 		if(( col.gameObject.CompareTag ("RegularSword") || col.gameObject.CompareTag ("PowerfulSword") ) && damageTimer>damageInterval && col.transform.root.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("attack_slice")){
 			if (col.gameObject.CompareTag ("RegularSword")) {
-				if (!isDead)
-					TakeDamage (regularSwordDamage);
+				TakeDamage (regularSwordDamage);
 			} else if (col.gameObject.CompareTag ("PowerfulSword")) {
-				if (!isDead)
-					TakeDamage (powerfulSwordDamage);
+				TakeDamage (powerfulSwordDamage);
 			}
 			damageTimer = 0f;
 		}

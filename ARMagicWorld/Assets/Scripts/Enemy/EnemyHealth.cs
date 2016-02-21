@@ -4,27 +4,21 @@ public class EnemyHealth : MonoBehaviour
 {
     public int startingHealth = 100;
     public int currentHealth;
-    public float sinkSpeed = 2.5f;
     public int scoreValue = 10;
     public AudioClip deathClip;
 
-
     Animator anim;
     AudioSource enemyAudio;
-    //ParticleSystem hitParticles;
-	//ParticleSystem deathParticles;
     CapsuleCollider capsuleCollider;
-    bool isDead;
-    bool isSinking;
+    bool isDead = false;
+	bool isSinking = false;
 	int wandDamage=20;
+	float sinkSpeed = 2.5f;
 
     void Awake ()
     {
         anim = GetComponent <Animator> ();
         enemyAudio = GetComponent <AudioSource> ();
-        //ParticleSystem[] temp = GetComponentsInChildren <ParticleSystem> ();
-		//hitParticles = temp [0];
-		//deathParticles = temp [1];
         capsuleCollider = GetComponent <CapsuleCollider> ();
 
         currentHealth = startingHealth;
@@ -38,7 +32,7 @@ public class EnemyHealth : MonoBehaviour
     }
 
 
-    public void TakeDamage (int amount, Vector3 hitPoint)
+    public void TakeDamage (int amount)
     {
         if(isDead)
             return;
@@ -46,11 +40,6 @@ public class EnemyHealth : MonoBehaviour
         enemyAudio.Play ();
 		anim.SetTrigger ("damaged");
         currentHealth -= amount;
-            
-        //hitParticles.transform.position = hitPoint;
-		//hitParticles.Simulate (0.01f); // Maybe a bug in unity
-		//hitParticles.Play ();
-
         if(currentHealth <= 0)
             Death ();
     }
@@ -59,10 +48,6 @@ public class EnemyHealth : MonoBehaviour
     void Death ()
     {
         isDead = true;
-
-		//deathParticles.transform.position = transform.position;
-		//deathParticles.Play ();
-
         capsuleCollider.isTrigger = true;
 
         anim.SetTrigger ("dead");
@@ -87,7 +72,7 @@ public class EnemyHealth : MonoBehaviour
 
 	public void OnTriggerEnter(Collider col){
 		if (col.gameObject.CompareTag ("Wand") && col.transform.root.gameObject.GetComponent<Animation>().IsPlaying("Attack")) {
-			TakeDamage (wandDamage, new Vector3(0f,0f,0f));
+			TakeDamage (wandDamage);
 		}
 	}
 }

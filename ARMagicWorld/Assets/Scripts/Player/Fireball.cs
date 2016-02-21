@@ -41,7 +41,7 @@ public class Fireball : MonoBehaviour {
 
 	public void OnTriggerEnter(Collider col){
 		if (col.CompareTag ("Enemy")) {
-			col.gameObject.GetComponent<EnemyHealth> ().TakeDamage (dealDamage, new Vector3(0,0,0));
+			col.gameObject.GetComponent<EnemyHealth> ().TakeDamage (dealDamage);
 		}
 	}
 }
