@@ -22,10 +22,11 @@ public class PlayerHealth : MonoBehaviour
     PlayerMovement playerMovement;
     //PlayerShooting playerShooting;
     bool isDead;
-	bool damaged;
+    bool damaged;
 	float damageTimer;
 	int regularSwordDamage=10;
 	int powerfulSwordDamage=20;
+	PlayerAttack playerAttack;
 
     void Awake ()
     {
@@ -35,6 +36,7 @@ public class PlayerHealth : MonoBehaviour
         //playerShooting = GetComponentInChildren <PlayerShooting> ();
         currentHealth = startingHealth;
 		damageTimer = damageInterval;
+		playerAttack = GetComponent<PlayerAttack> ();
     }
 
 
@@ -88,7 +90,10 @@ public class PlayerHealth : MonoBehaviour
 			} else if (col.gameObject.CompareTag ("PowerfulSword")) {
 				TakeDamage (powerfulSwordDamage);
 			}
+			playerAttack.target = col.transform.root.gameObject;
 			damageTimer = 0f;
+		}else if (col.gameObject.CompareTag ("Enemy")) {
+			playerAttack.target = col.transform.root.gameObject;
 		}
 	}
 
