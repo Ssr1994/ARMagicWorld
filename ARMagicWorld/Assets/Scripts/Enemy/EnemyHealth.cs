@@ -63,7 +63,6 @@ public class EnemyHealth : MonoBehaviour
         GetComponent <Rigidbody> ().isKinematic = true; // Avoid static computing
 		isSinking = true;
 		EnemyManager.enemyNum--;
-		Debug.Log (EnemyManager.enemyNum--);
 		ScoreManager.score += scoreValue;
 		Destroy (gameObject, 2f);
     }
