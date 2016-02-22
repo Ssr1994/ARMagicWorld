@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-
-
     float timer;
 	float flareTimer=0;
     Ray shootRay;

@@ -7,7 +7,7 @@ public class Fireball : MonoBehaviour {
 	public float speed = 5f;
 	public float DestroyTime=20f;
 	public GameObject effectObject;
-	public int dealDamage = 10;
+	public int dealDamage = 20;
 
 	float timer=0f;
 	GameObject effect=null;

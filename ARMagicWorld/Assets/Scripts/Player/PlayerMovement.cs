@@ -8,8 +8,8 @@ public class PlayerMovement : MonoBehaviour
 	public float boostTime = 20f;
 	public GameObject boostEffect;
 	public Transform boostEffectTransform;
-	//public Slider speedSlider;
-	//public GameObject speedUI;
+	public Slider speedSlider;
+	public GameObject speedUI;
 
 	Animation anim;
     Vector3 movement;
@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         floorMask = LayerMask.GetMask("Floor");
 		shootableMask = LayerMask.GetMask ("Shootable");
 		boostTimer = 0f;
-		//speedSlider.maxValue = boostTime;
+		speedSlider.maxValue = boostTime;
 		dest = transform.position;
 		playerRigidbody = GetComponent<Rigidbody> ();
 		anim = GetComponent<Animation> ();
@@ -78,10 +78,10 @@ public class PlayerMovement : MonoBehaviour
 
 		if (boostTimer > 0) {
 			boostTimer -= Time.deltaTime;
-			//speedSlider.value = boostTimer;
+			speedSlider.value = boostTimer;
 		} else {
 			smooth = originalSmooth;
-			//speedUI.SetActive(false);
+			speedUI.SetActive(false);
 		}
 
 		Vector3 lastPos = transform.position;
@@ -119,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
 	public void StartBoost() {
 		boostTimer = boostTime;
 		smooth *= 1.5f;
-		//speedUI.SetActive (true);
+		speedUI.SetActive (true);
 		GameObject effect = Instantiate (boostEffect, boostEffectTransform.position, boostEffectTransform.rotation) as GameObject;
 		effect.transform.parent = boostEffectTransform;
 	}

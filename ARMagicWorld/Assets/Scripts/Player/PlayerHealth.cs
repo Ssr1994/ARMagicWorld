@@ -15,8 +15,6 @@ public class PlayerHealth : MonoBehaviour
 	public GameObject healEffect;
 	public Transform healEffectTransform;
 
-
-
     Animation anim;
     AudioSource playerAudio;
     PlayerMovement playerMovement;
@@ -43,11 +41,11 @@ public class PlayerHealth : MonoBehaviour
     void Update ()
     {
 		damageTimer += Time.deltaTime;
-        /*if(damaged)
+        if(damaged)
             damageImage.color = flashColour;
         else
             damageImage.color = Color.Lerp (damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
-        damaged = false;*/
+        damaged = false;
     }
 
 
@@ -57,12 +55,10 @@ public class PlayerHealth : MonoBehaviour
 			return;
         damaged = true;
         currentHealth -= amount;
-        //healthSlider.value = currentHealth;
+        healthSlider.value = currentHealth;
         playerAudio.Play ();
-		if (!anim.IsPlaying ("Wound")) {
-			anim.Play ("Wound");
-			Debug.Log("Wounded");
-		}
+		anim.Play ("Wound");
+
         if(currentHealth <= 0 && !isDead)
             Death ();
     }
