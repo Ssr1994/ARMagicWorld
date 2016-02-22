@@ -13,7 +13,7 @@ public class HeartController : MonoBehaviour {
 			if (playerHealth.currentHealth > 100)
 				playerHealth.currentHealth = 100;
 			playerHealth.HealEffect ();
-			//playerHealth.healthSlider.value = playerHealth.currentHealth;
+			playerHealth.healthSlider.value = playerHealth.currentHealth;
 			Destroy(gameObject);
 		}
 	}

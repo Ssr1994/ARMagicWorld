@@ -88,8 +88,6 @@ public class PlayerHealth : MonoBehaviour
 			}
 			playerAttack.target = col.transform.root.gameObject;
 			damageTimer = 0f;
-		}else if (col.gameObject.CompareTag ("Enemy")) {
-			playerAttack.target = col.transform.root.gameObject;
 		}
 	}
 

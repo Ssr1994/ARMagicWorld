@@ -19,6 +19,7 @@ public class PlayerAttack : MonoBehaviour
 	Animation anim;
 	bool shotAnimated=false;
 	PlayerHealth playerHealth;
+	bool enemyInRange=false;
 
 	public GameObject target; // enemy to shoot
 	public GameObject Fireball;
@@ -26,7 +27,6 @@ public class PlayerAttack : MonoBehaviour
 	public Transform shieldTransform;
 	public Transform fireballTransform;
 	public float timeBetweenShot = 1f;
-	public float meleeAttackRange = 2.5f;
 
     void Awake ()
     {
@@ -64,16 +64,16 @@ public class PlayerAttack : MonoBehaviour
 		#endif
 
 		//condition that player can attack after time interval and there is target and target has health and player has health
-		if (fireballTimer >= timeBetweenShot && target!=null && target.GetComponent<EnemyHealth>().currentHealth>0 && playerHealth.currentHealth>0) {
+		if (fireballTimer >= timeBetweenShot && target != null && target.GetComponent<EnemyHealth> ().currentHealth > 0 && playerHealth.currentHealth > 0) {
 			fireballTimer = 0f;
-			Vector3 playerToEnemy = target.transform.position - transform.position;
-			if (playerToEnemy.magnitude > meleeAttackRange)
+			if (!enemyInRange)
 				AnimateShoot ();
 			else
 				MeleeAttack ();
-		} else {
+		}else {
 			fireballTimer += Time.deltaTime;
 		}
+			
 		//instantiate the fireball
 		if (shotAnimated && !anim.IsPlaying("Skill01")) {
 			Vector3 playerToEnemy = target.transform.position - transform.position;
@@ -97,7 +97,7 @@ public class PlayerAttack : MonoBehaviour
 			anim.Play ("Attack");
 		}
 		Instantiate (Shield, shieldTransform.position, shieldTransform.rotation);
-		//target = null;
+		enemyInRange = false;
 	}
 
 	void TurnToEnemy(){
@@ -108,5 +108,19 @@ public class PlayerAttack : MonoBehaviour
 
 	public bool ShotAnimated(){
 		return shotAnimated;
+	}
+
+	public void OnTriggerStay(Collider col){
+		if (col.gameObject.CompareTag ("Enemy")) {
+			target = col.gameObject;
+			enemyInRange = true;
+		}
+	}
+
+	public void OnTriggerExit(Collider col){
+		if (col.gameObject.CompareTag ("Enemy")) {
+			target = null;
+			enemyInRange = false;
+		}
 	}
 }
