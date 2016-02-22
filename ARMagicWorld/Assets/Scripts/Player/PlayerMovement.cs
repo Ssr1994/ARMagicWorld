@@ -1,4 +1,4 @@
-﻿//#define GEARVR
+﻿#define GEARVR
 using UnityEngine;
 using UnityEngine.UI;
 

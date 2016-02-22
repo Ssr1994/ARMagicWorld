@@ -12,7 +12,7 @@ public class EnemyHealth : MonoBehaviour
     CapsuleCollider capsuleCollider;
     bool isDead = false;
 	bool isSinking = false;
-	int wandDamage=20;
+	int wandDamage = 20;
 	float sinkSpeed = 2.5f;
 
     void Awake ()
@@ -61,9 +61,11 @@ public class EnemyHealth : MonoBehaviour
     {
         GetComponent <NavMeshAgent> ().enabled = false;
         GetComponent <Rigidbody> ().isKinematic = true; // Avoid static computing
-        isSinking = true;
-        ScoreManager.score += scoreValue; // since it is static
-        Destroy (gameObject, 2f);
+		isSinking = true;
+		EnemyManager.enemyNum--;
+		Debug.Log (EnemyManager.enemyNum--);
+		ScoreManager.score += scoreValue;
+		Destroy (gameObject, 2f);
     }
 
 	public bool IsDead(){

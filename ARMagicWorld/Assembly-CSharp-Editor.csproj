@@ -45,32 +45,35 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\ARSurvivalShooter\Editor\QCAR\SampleOrientationSetter.cs" />
-     <Compile Include="Assets\ARSurvivalShooter\Vuforia\Editor\Scripts\ComponentFactoryStarter\ComponentFactoryStarter.cs" />
-     <Compile Include="Assets\ARSurvivalShooter\Vuforia\Editor\Scripts\ExtensionImport.cs" />
-     <Compile Include="Assets\ARSurvivalShooter\Vuforia\Editor\Scripts\PostProcessBuildPlayer.cs" />
-     <Compile Include="Assets\ARSurvivalShooter\Vuforia\Editor\Scripts\Unzipper\SharpZipLibUnzipper.cs" />
+     <Compile Include="Assets\Editor\QCAR\SampleOrientationSetter.cs" />
+     <Compile Include="Assets\Vuforia\Editor\Scripts\ComponentFactoryStarter\ComponentFactoryStarter.cs" />
+     <Compile Include="Assets\Vuforia\Editor\Scripts\ExtensionImport.cs" />
+     <Compile Include="Assets\Vuforia\Editor\Scripts\PostProcessBuildPlayer.cs" />
+     <Compile Include="Assets\Vuforia\Editor\Scripts\Unzipper\SharpZipLibUnzipper.cs" />
      <None Include="Assets\Magician - Adventure Heroes\Materials\Toony-Basic.shader" />
-     <None Include="Assets\ARSurvivalShooter\link.xml" />
-     <None Include="Assets\ARSurvivalShooter\Vuforia\Shaders\VertexLitWithZ.shader" />
-     <None Include="Assets\ARSurvivalShooter\Plugins\Android\AndroidManifest.xml" />
-     <None Include="Assets\ARSurvivalShooter\readme_SDK.txt" />
-     <None Include="Assets\ARSurvivalShooter\license_3rdpartynotice.txt" />
-     <None Include="Assets\ARSurvivalShooter\Vuforia\Shaders\RenderVideoBackground.shader" />
-     <None Include="Assets\ARSurvivalShooter\Vuforia\Shaders\VideoBackground.shader" />
+     <None Include="Assets\link.xml" />
+     <None Include="Assets\Vuforia\Shaders\VertexLitWithZ.shader" />
+     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\readme_SDK.txt" />
+     <None Include="Assets\license_3rdpartynotice.txt" />
+     <None Include="Assets\Vuforia\Shaders\RenderVideoBackground.shader" />
+     <None Include="Assets\Vuforia\Shaders\VideoBackground.shader" />
      <None Include="Assets\Lowpoly Township Set\Readme.txt" />
-     <None Include="Assets\ARSurvivalShooter\StreamingAssets\QCAR\StonesAndChips.xml" />
-     <None Include="Assets\ARSurvivalShooter\Vuforia\Editor\WebcamProfiles\profiles.xml" />
-     <None Include="Assets\ARSurvivalShooter\Vuforia\Shaders\DepthMask.shader" />
+     <None Include="Assets\StreamingAssets\QCAR\StonesAndChips.xml" />
+     <None Include="Assets\Vuforia\Editor\WebcamProfiles\profiles.xml" />
+     <None Include="Assets\Vuforia\Shaders\DepthMask.shader" />
      <None Include="Assets\DynamicElements_Effects\readme.txt" />
      <None Include="Assets\Fonts\LuckiestGuy\LICENSE.txt" />
-     <None Include="Assets\ARSurvivalShooter\StreamingAssets\QCAR\Tarmac.xml" />
-     <None Include="Assets\ARSurvivalShooter\Vuforia\Shaders\ClippingMask.shader" />
-     <None Include="Assets\ARSurvivalShooter\Vuforia\Shaders\BrightTexture.shader" />
-     <None Include="Assets\ARSurvivalShooter\Resources\Vuforia_About.txt" />
-     <None Include="Assets\ARSurvivalShooter\Vuforia\Shaders\Text3D.shader" />
+     <None Include="Assets\StreamingAssets\QCAR\Tarmac.xml" />
+     <None Include="Assets\Vuforia\Shaders\ClippingMask.shader" />
+     <None Include="Assets\Vuforia\Shaders\BrightTexture.shader" />
+     <None Include="Assets\Resources\Vuforia_About.txt" />
+     <None Include="Assets\Vuforia\Shaders\Text3D.shader" />
  <Reference Include="Assembly-UnityScript">
  <HintPath>/Users/siran/Documents/CS188/ARMagicWorld/ARMagicWorld/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
+ </Reference>
+ <Reference Include="Assembly-UnityScript-Editor-firstpass">
+ <HintPath>/Users/siran/Documents/CS188/ARMagicWorld/ARMagicWorld/Library/ScriptAssemblies/Assembly-UnityScript-Editor-firstpass.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
@@ -84,8 +87,20 @@
  <Reference Include="UnityEditor.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="Qualcomm.Vuforia.UnityExtensions.Editor">
+ <HintPath>/Users/siran/Documents/CS188/ARMagicWorld/ARMagicWorld/Assets/Vuforia/Editor/Scripts/Qualcomm.Vuforia.UnityExtensions.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Qualcomm.Vuforia.UnityExtensions">
+ <HintPath>/Users/siran/Documents/CS188/ARMagicWorld/ARMagicWorld/Assets/Vuforia/Scripts/Internal/Qualcomm.Vuforia.UnityExtensions.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>/Applications/Unity/Unity.app/Contents/Frameworks/Managed/UnityEditor.Graphs.dll</HintPath>
@@ -113,12 +128,6 @@
  </Reference>
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
- </Reference>
- <Reference Include="Qualcomm.Vuforia.UnityExtensions.Editor">
- <HintPath>/Users/siran/Documents/CS188/ARMagicWorld/ARMagicWorld/Assets/ARSurvivalShooter/Vuforia/Editor/Scripts/Qualcomm.Vuforia.UnityExtensions.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Qualcomm.Vuforia.UnityExtensions">
- <HintPath>/Users/siran/Documents/CS188/ARMagicWorld/ARMagicWorld/Assets/ARSurvivalShooter/Vuforia/Scripts/Internal/Qualcomm.Vuforia.UnityExtensions.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
