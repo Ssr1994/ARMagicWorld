@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnemyMovement : MonoBehaviour
 {
-	float speed = 3f;
+	//float speed = 3f;
 	Transform player;
     PlayerHealth playerHealth;
     EnemyHealth enemyHealth;

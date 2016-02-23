@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviour
     public AudioClip deathClip;
     public float flashSpeed = 5f;
     public Color flashColour = new Color(1f, 0f, 0f, 0.1f);
-	public float damageInterval = 0.3f;
+	public float damageInterval = 0.4f;
 	public GameObject healEffect;
 	public Transform healEffectTransform;
 
@@ -31,7 +31,6 @@ public class PlayerHealth : MonoBehaviour
         anim = GetComponent <Animation> ();
         playerAudio = GetComponent <AudioSource> ();
         playerMovement = GetComponent <PlayerMovement> ();
-        //playerShooting = GetComponentInChildren <PlayerShooting> ();
         currentHealth = startingHealth;
 		damageTimer = damageInterval;
 		playerAttack = GetComponent<PlayerAttack> ();
@@ -68,19 +67,17 @@ public class PlayerHealth : MonoBehaviour
     {
         isDead = true;
 
-        //playerShooting.DisableEffects ();
-
 		anim.Play ("HitAway");
 
         playerAudio.clip = deathClip;
         playerAudio.Play ();
 
         playerMovement.enabled = false;
-        //playerShooting.enabled = false;
     }
 
 	public void OnTriggerEnter(Collider col){
-		if(( col.gameObject.CompareTag ("RegularSword") || col.gameObject.CompareTag ("PowerfulSword") ) && damageTimer>damageInterval && col.transform.root.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("attack_slice")){
+		if(( col.gameObject.CompareTag ("RegularSword") || col.gameObject.CompareTag ("PowerfulSword") )
+		   && damageTimer>damageInterval && col.transform.root.gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("attack_slice")){
 			if (col.gameObject.CompareTag ("RegularSword")) {
 				TakeDamage (regularSwordDamage);
 			} else if (col.gameObject.CompareTag ("PowerfulSword")) {

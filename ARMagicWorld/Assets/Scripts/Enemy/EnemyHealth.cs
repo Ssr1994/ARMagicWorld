@@ -12,7 +12,7 @@ public class EnemyHealth : MonoBehaviour
     CapsuleCollider capsuleCollider;
     bool isDead = false;
 	bool isSinking = false;
-	int wandDamage = 20;
+	int wandDamage = 12;
 	float sinkSpeed = 2.5f;
 
     void Awake ()

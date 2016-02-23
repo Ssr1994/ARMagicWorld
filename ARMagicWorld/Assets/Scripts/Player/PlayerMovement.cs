@@ -90,8 +90,9 @@ public class PlayerMovement : MonoBehaviour
 		//turn and animate
 		Vector3 playerToMouse = dest - transform.position;
 		playerToMouse.y = 0f;
-		if (playerToMouse.sqrMagnitude > waypointPrecision*waypointPrecision && !playerAttack.ShotAnimated()) {
-			
+		if (playerAttack.IsCasting ())
+			return;
+		if (playerToMouse.sqrMagnitude > waypointPrecision*waypointPrecision && !anim.IsPlaying("Wound")) {
 			playerToMouse.y = 0f;
 			playerRigidbody.MoveRotation (Quaternion.LookRotation (playerToMouse));
 			if (!anim.IsPlaying ("Run"))
@@ -109,9 +110,9 @@ public class PlayerMovement : MonoBehaviour
 			}
 			#endif
 
-		} else {
+		} else if (!anim.IsPlaying("Attack")) {
 			dest = transform.position;
-			if(!anim.IsPlaying("idle2") && !anim.IsPlaying("Skill01") && !anim.IsPlaying("Attack"))
+			if (!anim.IsPlaying("idle2"))
 				anim.Play ("idle2");
 		}
 	}

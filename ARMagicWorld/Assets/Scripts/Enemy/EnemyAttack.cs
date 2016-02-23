@@ -5,8 +5,7 @@ public class EnemyAttack : MonoBehaviour
 {
     public float timeBetweenAttacks = 1f;
     public int attackDamage = 10;
-
-
+	
     Animator anim;
     GameObject player;
     PlayerHealth playerHealth;

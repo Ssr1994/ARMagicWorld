@@ -1,32 +1,29 @@
-﻿//#define GEARVR
+﻿#define GEARVR
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+	public GameObject target; // enemy to shoot
+	public GameObject Fireball;
+	public GameObject HolyFire;
+	public GameObject Shield;
+	public Transform shieldTransform;
+	public Transform fireballTransform;
+	public float timeBetweenShot = 1f;
+
     float timer;
-	float flareTimer=0;
-    Ray shootRay;
-    RaycastHit shootHit;
     int shootableMask;
-    ParticleSystem gunParticles;
-    LineRenderer gunLine;
-    AudioSource gunAudio;
-	Light gunLight;
 	Rigidbody playerRigidbody;
 	float effectsDisplayTime;
 	float camRayLength = 100f;
 	float fireballTimer;
 	Animation anim;
-	bool shotAnimated=false;
+	bool shotAnimated = false;
+	bool castAnimated = false;
 	PlayerHealth playerHealth;
-	bool enemyInRange=false;
-
-	public GameObject target; // enemy to shoot
-	public GameObject Fireball;
-	public GameObject Shield;
-	public Transform shieldTransform;
-	public Transform fireballTransform;
-	public float timeBetweenShot = 1f;
+	bool enemyInRange = false;
+	bool isDefaultSkill = true;
+	int holyFireDamage = 40;
 
     void Awake ()
     {
@@ -51,6 +48,9 @@ public class PlayerAttack : MonoBehaviour
 				target = enemyHit.collider.gameObject;
 			}
 		}
+		// switch skill
+		if (Input.GetMouseButtonDown(1))
+			isDefaultSkill = !isDefaultSkill;
 		#elif ((UNITY_ANDROID || UNITY_IOS) && !GEARVR)
 		foreach (Touch touch in Input.touches) {
 			if (touch.phase != TouchPhase.Ended) {
@@ -61,20 +61,27 @@ public class PlayerAttack : MonoBehaviour
 					target = enemyHit.collider.gameObject;
 			}
 		}
+		#else
+		if (Input.touchCount == 1 && Input.GetTouch (0).phase == TouchPhase.Began)
+			isDefaultSkill = !isDefaultSkill;
 		#endif
 
 		//condition that player can attack after time interval and there is target and target has health and player has health
-		if (fireballTimer >= timeBetweenShot && target != null && target.GetComponent<EnemyHealth> ().currentHealth > 0 && playerHealth.currentHealth > 0) {
+		if (target != null && fireballTimer >= timeBetweenShot && !anim.IsPlaying("Wound")
+		    && target.GetComponent<EnemyHealth> ().currentHealth > 0 && playerHealth.currentHealth > 0) {
 			fireballTimer = 0f;
-			if (!enemyInRange)
-				AnimateShoot ();
-			else
+			if (!enemyInRange) {
+				if (isDefaultSkill)
+					AnimateShoot();
+				else 
+					AnimateCast();
+			} else
 				MeleeAttack ();
-		}else {
+		} else {
 			fireballTimer += Time.deltaTime;
 		}
 			
-		//instantiate the fireball
+		//instantiate the tornado
 		if (shotAnimated && !anim.IsPlaying("Skill01")) {
 			Vector3 playerToEnemy = target.transform.position - transform.position;
 			GameObject fireball = Instantiate (Fireball, fireballTransform.position, Quaternion.LookRotation (playerToEnemy)) as GameObject;
@@ -82,20 +89,31 @@ public class PlayerAttack : MonoBehaviour
 			target = null;
 			shotAnimated = false;
 		}
+
+		if (castAnimated && !anim.IsPlaying ("Skill03")) {
+			target = null;
+			castAnimated = false;
+		}
 	}
 		
 	void AnimateShoot(){
 		TurnToEnemy ();
-		if (!anim.IsPlaying ("Skill01"))
-			anim.Play ("Skill01");
+		anim.Play ("Skill01");
 		shotAnimated = true;
+	}
+
+	void AnimateCast() {
+		TurnToEnemy ();
+		if (!anim.IsPlaying("Skill03"))
+			anim.Play ("Skill03");		
+		Instantiate (HolyFire, target.transform.position, target.transform.rotation);
+		target.GetComponent<EnemyHealth>().TakeDamage(holyFireDamage);
+		castAnimated = true;
 	}
 
 	void MeleeAttack(){
 		TurnToEnemy ();
-		if (!anim.IsPlaying ("Attack")) {
-			anim.Play ("Attack");
-		}
+		anim.Play ("Attack");
 		Instantiate (Shield, shieldTransform.position, shieldTransform.rotation);
 		enemyInRange = false;
 	}
@@ -106,8 +124,8 @@ public class PlayerAttack : MonoBehaviour
 		playerRigidbody.MoveRotation (Quaternion.LookRotation (playerToEnemy));
 	}
 
-	public bool ShotAnimated(){
-		return shotAnimated;
+	public bool IsCasting(){
+		return shotAnimated || castAnimated;
 	}
 
 	public void OnTriggerStay(Collider col){
