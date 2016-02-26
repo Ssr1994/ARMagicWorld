@@ -5,16 +5,12 @@ public class Fireball : MonoBehaviour {
 	public GameObject Target;
 	public float angularSpeed = 40f;
 	public float speed = 5f;
-	public float DestroyTime=20f;
 	public GameObject effectObject;
-	public int dealDamage = 20;
-
-	float timer=0f;
-	GameObject effect=null;
-	// Use this for initialization
-	void Start () {
-		
-	}
+	
+	float DestroyTime = 11f;
+	int dealDamage = 40;
+	float timer = 0f;
+	GameObject effect = null;
 	
 	// Update is called once per frame
 	void Update () {
@@ -41,7 +37,7 @@ public class Fireball : MonoBehaviour {
 
 	public void OnTriggerEnter(Collider col){
 		if (col.CompareTag ("Enemy") && !col.isTrigger) {
-			col.gameObject.GetComponent<EnemyHealth> ().TakeDamage (dealDamage);
+			col.gameObject.GetComponent<EnemyHealth> ().TakeDamage (dealDamage, 1);
 		}
 	}
 }

@@ -5,13 +5,9 @@ public class LightningController : MonoBehaviour {
 	public GameObject effect;
 	public GameObject lightningStrike;
 	public GameObject lightningBlast;
-	public GameObject effectObject=null;
-	public int strikeDamage = 100;
+	public GameObject effectObject = null;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+	int strikeDamage = 100;
 		
 	// Update is called once per frame
 	void Update () {
@@ -21,19 +17,23 @@ public class LightningController : MonoBehaviour {
 		}
 	}
 
-	public void OnTriggerEnter(Collider col){
+	IEnumerator OnTriggerEnter(Collider col){
 		if (col.gameObject.CompareTag ("Player")) {
 			//ligtning strike
 			GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-			foreach (GameObject enemy in enemies) {
-				GameObject strike = Instantiate (lightningStrike, enemy.transform.position-enemy.transform.up*0.15f, Quaternion.identity) as GameObject;
-				GameObject blast = Instantiate (lightningBlast, enemy.transform.position, Quaternion.identity) as GameObject;
-				strike.transform.parent = enemy.transform;
-				blast.transform.parent = enemy.transform;
-				EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth> ();
-				enemyHealth.TakeDamage (strikeDamage);
-			}
+			GetComponent<SphereCollider>().enabled = false;
+			foreach (GameObject enemy in enemies)
+				yield return StartCoroutine(initLightnings(enemy));
 			Destroy (gameObject);
 		}
+	}
+
+	IEnumerator initLightnings(GameObject enemy) {
+			GameObject strike = Instantiate (lightningStrike, enemy.transform.position+enemy.transform.up*0.15f, Quaternion.identity) as GameObject;
+			GameObject blast = Instantiate (lightningBlast, enemy.transform.position, Quaternion.identity) as GameObject;
+			EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth> ();
+			enemyHealth.TakeDamage (strikeDamage, 2);
+			
+			yield return new WaitForSeconds(0.1f); // Wait
 	}
 }

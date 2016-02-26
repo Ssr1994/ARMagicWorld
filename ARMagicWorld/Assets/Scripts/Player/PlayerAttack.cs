@@ -23,7 +23,7 @@ public class PlayerAttack : MonoBehaviour
 	PlayerHealth playerHealth;
 	bool enemyInRange = false;
 	bool isDefaultSkill = true;
-	int holyFireDamage = 40;
+	int holyFireDamage = 90;
 
     void Awake ()
     {
@@ -107,7 +107,7 @@ public class PlayerAttack : MonoBehaviour
 		if (!anim.IsPlaying("Skill03"))
 			anim.Play ("Skill03");		
 		Instantiate (HolyFire, target.transform.position, target.transform.rotation);
-		target.GetComponent<EnemyHealth>().TakeDamage(holyFireDamage);
+		target.GetComponent<EnemyHealth>().TakeDamage(holyFireDamage, 3);
 		castAnimated = true;
 	}
 

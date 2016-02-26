@@ -5,22 +5,28 @@ public class EnemyHealth : MonoBehaviour
     public int startingHealth = 100;
     public int currentHealth;
     public int scoreValue = 10;
-    public AudioClip deathClip;
-
+	public AudioClip deathClip;
+	public GameObject deathEffect;
+	/*
+	public GameObject dustStorm;
+	public GameObject flashBang;
+	public GameObject 
+*/
     Animator anim;
     AudioSource enemyAudio;
     CapsuleCollider capsuleCollider;
+	Rigidbody rigidbody;
     bool isDead = false;
 	bool isSinking = false;
-	int wandDamage = 12;
-	float sinkSpeed = 2.5f;
+	int wandDamage = 35;
+	float sinkSpeed = 0.3f;
 
     void Awake ()
     {
         anim = GetComponent <Animator> ();
         enemyAudio = GetComponent <AudioSource> ();
         capsuleCollider = GetComponent <CapsuleCollider> ();
-
+		rigidbody = GetComponent<Rigidbody> ();
         currentHealth = startingHealth;
     }
 
@@ -32,7 +38,7 @@ public class EnemyHealth : MonoBehaviour
     }
 
 
-    public void TakeDamage (int amount)
+    public void TakeDamage (int amount, int skill)
     {
         if(isDead)
             return;
@@ -41,39 +47,35 @@ public class EnemyHealth : MonoBehaviour
 		anim.SetTrigger ("damaged");
         currentHealth -= amount;
         if(currentHealth <= 0)
-            Death ();
+            Death (skill);
     }
 
 
-    void Death ()
+    void Death (int skill)
     {
-        isDead = true;
+		isDead = true;
         capsuleCollider.isTrigger = true;
-
-        anim.SetTrigger ("dead");
+		Instantiate (deathEffect, transform.position - transform.forward * 0.4f, transform.rotation);
+        anim.SetTrigger ("dead");		
+		Destroy (gameObject, 1.1f);
+		EnemyManager.enemyNum--;
+		ScoreManager.score += scoreValue;
+		GetComponent <NavMeshAgent> ().enabled = false;
+		isSinking = true;
+		GetComponent <Rigidbody> ().isKinematic = true;
 
         enemyAudio.clip = deathClip;
         enemyAudio.Play ();
     }
-
-
-    public void StartSinking () // called as an animation event
-    {
-        GetComponent <NavMeshAgent> ().enabled = false;
-        GetComponent <Rigidbody> ().isKinematic = true; // Avoid static computing
-		isSinking = true;
-		EnemyManager.enemyNum--;
-		ScoreManager.score += scoreValue;
-		Destroy (gameObject, 2f);
-    }
-
+    
 	public bool IsDead(){
 		return isDead;
 	}
 
+
 	public void OnTriggerEnter(Collider col){
 		if (col.gameObject.CompareTag ("Wand") && col.transform.root.gameObject.GetComponent<Animation>().IsPlaying("Attack")) {
-			TakeDamage (wandDamage);
+			TakeDamage (wandDamage, 0);
 		}
 	}
 }

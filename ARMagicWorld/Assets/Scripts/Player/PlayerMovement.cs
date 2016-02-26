@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
 	int shootableMask;
     float camRayLength = 100f; // how far from camera
 	float boostTimer;
-	float waypointPrecision = 0.5f;
+	float waypointPrecision = 0.8f;
 	PlayerAttack playerAttack;
 
     void Awake()
@@ -84,33 +84,21 @@ public class PlayerMovement : MonoBehaviour
 			speedUI.SetActive(false);
 		}
 
-		Vector3 lastPos = transform.position;
-
-
 		//turn and animate
+		if (playerAttack.IsCasting () || anim.IsPlaying("Wound") || anim.IsPlaying("Attack"))
+			return;
 		Vector3 playerToMouse = dest - transform.position;
 		playerToMouse.y = 0f;
-		if (playerAttack.IsCasting ())
-			return;
-		if (playerToMouse.sqrMagnitude > waypointPrecision*waypointPrecision && !anim.IsPlaying("Wound")) {
-			playerToMouse.y = 0f;
+		if (playerToMouse.sqrMagnitude > waypointPrecision*waypointPrecision) {
 			playerRigidbody.MoveRotation (Quaternion.LookRotation (playerToMouse));
 			if (!anim.IsPlaying ("Run"))
 				anim.Play ("Run");
 			//deactive melee attack while running
 			playerAttack.target = null;
 
-			#if !GEARVR
 			transform.position = Vector3.MoveTowards (transform.position, dest, smooth);
-			#else
-			if((lastPos-dest).sqrMagnitude > 0.5*0.5){
-				transform.position = Vector3.MoveTowards (transform.position, dest, smooth);
-			}else{
-				transform.position = lastPos;
-			}
-			#endif
 
-		} else if (!anim.IsPlaying("Attack")) {
+		} else {
 			dest = transform.position;
 			if (!anim.IsPlaying("idle2"))
 				anim.Play ("idle2");

@@ -142,7 +142,7 @@ ModelImporter:
     - serializedVersion: 16
       name: enrage
       takeName: enragedAdjusted
-      firstFrame: 0
+      firstFrame: 8
       lastFrame: 80
       wrapMode: 0
       orientationOffsetY: 0
