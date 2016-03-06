@@ -83,7 +83,7 @@ public class PlayerHealth : MonoBehaviour
 			} else if (col.gameObject.CompareTag ("PowerfulSword")) {
 				TakeDamage (powerfulSwordDamage);
 			}
-			playerAttack.target = col.transform.root.gameObject;
+			playerAttack.SetTarget(col.transform.root.gameObject);
 			damageTimer = 0f;
 		}
 	}

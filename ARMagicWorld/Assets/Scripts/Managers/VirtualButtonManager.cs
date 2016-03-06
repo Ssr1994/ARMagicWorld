@@ -19,8 +19,10 @@ public class VirtualButtonManager : MonoBehaviour, IVirtualButtonEventHandler{
 		
 
 	public void OnButtonPressed(VirtualButtonAbstractBehaviour vb){
-		if (vb.GetComponent<VirtualButtonController>().IsActive())
-			player.GetComponentInChildren<PlayerAttack>().target = vb.GetComponent<VirtualButtonController>().GetTarget();
+		if (vb.GetComponent<VirtualButtonController> ().IsActive ()) {
+			player.GetComponentInChildren<PlayerAttack> ().SetTarget(vb.GetComponent<VirtualButtonController> ().GetTarget ());
+
+		}
 	}
 
 	public void OnButtonReleased(VirtualButtonAbstractBehaviour vb){

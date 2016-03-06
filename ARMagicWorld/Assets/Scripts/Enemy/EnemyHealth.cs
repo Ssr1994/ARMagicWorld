@@ -62,7 +62,7 @@ public class EnemyHealth : MonoBehaviour
 		ScoreManager.score += scoreValue;
 		GetComponent <NavMeshAgent> ().enabled = false;
 		isSinking = true;
-		GetComponent <Rigidbody> ().isKinematic = true;
+		rigidbody.isKinematic = true;
 
         enemyAudio.clip = deathClip;
         enemyAudio.Play ();

@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
 			if (!anim.IsPlaying ("Run"))
 				anim.Play ("Run");
 			//deactive melee attack while running
-			playerAttack.target = null;
+//			playerAttack.target = null;
 
 			transform.position = Vector3.MoveTowards (transform.position, dest, smooth);
 

@@ -29,8 +29,8 @@ public class LightningController : MonoBehaviour {
 	}
 
 	IEnumerator initLightnings(GameObject enemy) {
-			GameObject strike = Instantiate (lightningStrike, enemy.transform.position+enemy.transform.up*0.15f, Quaternion.identity) as GameObject;
-			GameObject blast = Instantiate (lightningBlast, enemy.transform.position, Quaternion.identity) as GameObject;
+			Instantiate (lightningStrike, enemy.transform.position+enemy.transform.up*0.15f, Quaternion.identity);
+			Instantiate (lightningBlast, enemy.transform.position, Quaternion.identity);
 			EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth> ();
 			enemyHealth.TakeDamage (strikeDamage, 2);
 			

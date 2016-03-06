@@ -83,6 +83,7 @@ namespace Vuforia
                 component.enabled = true;
             }
 
+			Time.timeScale = 1f;
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
         }
 
@@ -104,6 +105,7 @@ namespace Vuforia
                 component.enabled = false;
             }
 
+			Time.timeScale = 0f;
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
         }
 
