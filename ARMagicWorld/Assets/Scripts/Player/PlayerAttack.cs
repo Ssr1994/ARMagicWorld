@@ -76,7 +76,7 @@ public class PlayerAttack : MonoBehaviour
 //					AnimateShoot();
 //				else 
 //					AnimateCast();
-				if (Input.gyro.userAcceleration.z > 0.28f)
+				if (Input.gyro.userAcceleration.z > 0.2f)
 					AnimateShoot();
 				else if (Input.gyro.userAcceleration.y > 0.13f)
 					AnimateCast();

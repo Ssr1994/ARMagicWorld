@@ -27,7 +27,7 @@ public class EnemyManager : MonoBehaviour
             return;
 
 		// Or use enemyNum to balance game
-		if (++numSpawned >= levelPoint && spawnTime > spawnTimeReduce) {
+		if (enemyNum < 20 && ++numSpawned >= levelPoint && spawnTime > spawnTimeReduce) {
 			numSpawned = 0;
 			spawnTime -= spawnTimeReduce;
 			CancelInvoke ();
