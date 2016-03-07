@@ -1,14 +1,19 @@
 ﻿#define GEARVR
 using UnityEngine;
+using System.Collections;
 
 public class PlayerAttack : MonoBehaviour
 {
+	public static bool lightningCharged = false;
+
 	public GameObject Fireball;
 	public GameObject HolyFire;
 	public GameObject Shield;
+	public GameObject lightningStrike;
+	public GameObject lightningBlast;
 	public Transform shieldTransform;
 	public Transform fireballTransform;
-	public float timeBetweenShot = 1f;
+	float timeBetweenShot = 0.8f;
 
 	GameObject target = null;
     float timer;
@@ -16,7 +21,8 @@ public class PlayerAttack : MonoBehaviour
 	Rigidbody playerRigidbody;
 	float effectsDisplayTime;
 //	float camRayLength = 100f;
-	float fireballTimer;
+	float fireballTimer = 0f;
+	float lightningTimer = 0f;
 	Animation anim;
 	bool shotAnimated = false;
 	bool castAnimated = false;
@@ -24,6 +30,7 @@ public class PlayerAttack : MonoBehaviour
 	bool enemyInRange = false;
 //	bool isDefaultSkill = true;
 	int holyFireDamage = 90;
+	int strikeDamage = 100;
 
     void Awake ()
     {
@@ -66,7 +73,7 @@ public class PlayerAttack : MonoBehaviour
 //		if (Input.touchCount == 1 && Input.GetTouch (0).phase == TouchPhase.Began)
 //			isDefaultSkill = !isDefaultSkill;
 		#endif
-		Debug.Log (target != null);
+
 		//condition that player can attack after time interval and there is target and target has health and player has health
 		if (target != null && fireballTimer >= timeBetweenShot && !anim.IsPlaying("Wound")
 		    && target.GetComponent<EnemyHealth> ().currentHealth > 0 && playerHealth.currentHealth > 0) {
@@ -76,17 +83,23 @@ public class PlayerAttack : MonoBehaviour
 //					AnimateShoot();
 //				else 
 //					AnimateCast();
-				if (Input.gyro.userAcceleration.z > 0.2f)
+				if (Input.gyro.userAcceleration.z > 0.13f)
 					AnimateShoot();
-				else if (Input.gyro.userAcceleration.y > 0.13f)
+				else if (Input.gyro.userAcceleration.y > 0.12f)
 					AnimateCast();
 			} else {
-				if (Input.gyro.userAcceleration.x > 0.13f)
-					MeleeAttack ();
+				MeleeAttack ();
 			}
 		}
 
+		if (lightningCharged && Input.gyro.userAcceleration.x > 0.12f) {
+			anim.Play ("Skill02");
+			castAnimated = true;
+			lightningCharged = false;
+		}
+
 		fireballTimer += Time.deltaTime;
+		lightningTimer += Time.deltaTime;
 			
 		//instantiate the tornado
 		if (shotAnimated && !anim.IsPlaying("Skill01")) {
@@ -97,8 +110,8 @@ public class PlayerAttack : MonoBehaviour
 			shotAnimated = false;
 		}
 
-		if (castAnimated && !anim.IsPlaying ("Skill03")) {
-//			target = null;
+		if (castAnimated && !anim.IsPlaying ("Skill02")) {
+			StartCoroutine(CastLightnings());
 			castAnimated = false;
 		}
 	}
@@ -112,12 +125,25 @@ public class PlayerAttack : MonoBehaviour
 
 	void AnimateCast() {
 		TurnToEnemy ();
-		if (!anim.IsPlaying("Skill03"))
-			anim.Play ("Skill03");		
+		anim.Play ("Skill03");
 		Instantiate (HolyFire, target.transform.position, target.transform.rotation);
-		target.GetComponent<EnemyHealth>().TakeDamage(holyFireDamage, 3);
-		castAnimated = true;
+		target.GetComponent<EnemyHealth>().TakeDamage(holyFireDamage);
 		fireballTimer = 0f;
+	}
+
+	IEnumerator CastLightnings() {
+		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+		foreach (GameObject enemy in enemies)
+			yield return StartCoroutine(InitLightnings(enemy));
+	}
+	
+	IEnumerator InitLightnings(GameObject enemy) {
+		Instantiate (lightningStrike, enemy.transform.position+enemy.transform.up*0.15f, Quaternion.identity);
+		Instantiate (lightningBlast, enemy.transform.position, Quaternion.identity);
+		EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth> ();
+		enemyHealth.TakeDamage (strikeDamage);
+		
+		yield return new WaitForSeconds(0.1f); // Wait
 	}
 
 	void MeleeAttack(){
@@ -126,7 +152,6 @@ public class PlayerAttack : MonoBehaviour
 		Instantiate (Shield, shieldTransform.position, shieldTransform.rotation);
 		enemyInRange = false;
 		fireballTimer = 0f;
-		target = null;
 	}
 
 	void TurnToEnemy(){
@@ -136,7 +161,7 @@ public class PlayerAttack : MonoBehaviour
 	}
 
 	public bool IsCasting(){
-		return shotAnimated || castAnimated;
+		return shotAnimated || castAnimated || anim.IsPlaying("Skill03");
 	}
 
 	public void SetTarget(GameObject enemy) {

@@ -3,11 +3,12 @@ using System.Collections;
 
 public class LightningController : MonoBehaviour {
 	public GameObject effect;
-	public GameObject lightningStrike;
-	public GameObject lightningBlast;
-	public GameObject effectObject = null;
+//	public GameObject lightningStrike;
+//	public GameObject lightningBlast;
 
-	int strikeDamage = 100;
+	GameObject effectObject = null;
+
+//	int strikeDamage = 100;
 		
 	// Update is called once per frame
 	void Update () {
@@ -17,23 +18,24 @@ public class LightningController : MonoBehaviour {
 		}
 	}
 
-	IEnumerator OnTriggerEnter(Collider col){
+	void OnTriggerEnter(Collider col){
 		if (col.gameObject.CompareTag ("Player")) {
 			//ligtning strike
-			GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-			GetComponent<SphereCollider>().enabled = false;
-			foreach (GameObject enemy in enemies)
-				yield return StartCoroutine(initLightnings(enemy));
+//			GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+//			GetComponent<SphereCollider>().enabled = false;
+//			foreach (GameObject enemy in enemies)
+//				yield return StartCoroutine(initLightnings(enemy));
+			PlayerAttack.lightningCharged = true;
 			Destroy (gameObject);
 		}
 	}
-
-	IEnumerator initLightnings(GameObject enemy) {
-			Instantiate (lightningStrike, enemy.transform.position+enemy.transform.up*0.15f, Quaternion.identity);
-			Instantiate (lightningBlast, enemy.transform.position, Quaternion.identity);
-			EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth> ();
-			enemyHealth.TakeDamage (strikeDamage, 2);
-			
-			yield return new WaitForSeconds(0.1f); // Wait
-	}
+//
+//	IEnumerator initLightnings(GameObject enemy) {
+//			Instantiate (lightningStrike, enemy.transform.position+enemy.transform.up*0.15f, Quaternion.identity);
+//			Instantiate (lightningBlast, enemy.transform.position, Quaternion.identity);
+//			EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth> ();
+//			enemyHealth.TakeDamage (strikeDamage);
+//			
+//			yield return new WaitForSeconds(0.1f); // Wait
+//	}
 }

@@ -7,11 +7,7 @@ public class EnemyHealth : MonoBehaviour
     public int scoreValue = 10;
 	public AudioClip deathClip;
 	public GameObject deathEffect;
-	/*
-	public GameObject dustStorm;
-	public GameObject flashBang;
-	public GameObject 
-*/
+
     Animator anim;
     AudioSource enemyAudio;
     CapsuleCollider capsuleCollider;
@@ -38,7 +34,7 @@ public class EnemyHealth : MonoBehaviour
     }
 
 
-    public void TakeDamage (int amount, int skill)
+    public void TakeDamage (int amount)
     {
         if(isDead)
             return;
@@ -47,11 +43,11 @@ public class EnemyHealth : MonoBehaviour
 		anim.SetTrigger ("damaged");
         currentHealth -= amount;
         if(currentHealth <= 0)
-            Death (skill);
+            Death ();
     }
 
 
-    void Death (int skill)
+    void Death ()
     {
 		isDead = true;
         capsuleCollider.isTrigger = true;
@@ -75,7 +71,7 @@ public class EnemyHealth : MonoBehaviour
 
 	public void OnTriggerEnter(Collider col){
 		if (col.gameObject.CompareTag ("Wand") && col.transform.root.gameObject.GetComponent<Animation>().IsPlaying("Attack")) {
-			TakeDamage (wandDamage, 0);
+			TakeDamage (wandDamage);
 		}
 	}
 }

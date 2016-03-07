@@ -85,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 
 		//turn and animate
-		if (playerAttack.IsCasting () || anim.IsPlaying("Wound") || anim.IsPlaying("Attack"))
+		if (playerAttack.IsCasting () || anim.IsPlaying("Wound"))
 			return;
 		Vector3 playerToMouse = dest - transform.position;
 		playerToMouse.y = 0f;
@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
 
 		} else {
 			dest = transform.position;
-			if (!anim.IsPlaying("idle2"))
+			if (!anim.IsPlaying("idle2") && !anim.IsPlaying("Attack"))
 				anim.Play ("idle2");
 		}
 	}

@@ -9,20 +9,9 @@ public class BonusPickupManager : MonoBehaviour {
 
 	int prevBonusScore=0;
 	GameObject instantiatedFlare=null;
-	// Use this for initialization
-	void Start () {
-	
-	}
 	
 	// Update is called once per frame
 	void Update () {
-		CheckFlareBonus ();
-	}
-
-	// Flare is spawn every time player gains score of scoreToSpawnFlare
-	// and previously instantiated flare is picked up by player.
-	void CheckFlareBonus(){
-
 		//possible to spawn flare when score point reached
 		if (ScoreManager.score-prevBonusScore >= scoreToSpawnFlare) {
 			//cannot spawn new one if old one is not picked up

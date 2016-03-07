@@ -8,7 +8,7 @@ public class Fireball : MonoBehaviour {
 	public GameObject effectObject;
 	
 	float DestroyTime = 11f;
-	int dealDamage = 40;
+	int dealDamage = 70;
 	float timer = 0f;
 	GameObject effect = null;
 	
@@ -37,7 +37,7 @@ public class Fireball : MonoBehaviour {
 
 	public void OnTriggerEnter(Collider col){
 		if (col.CompareTag ("Enemy") && !col.isTrigger) {
-			col.gameObject.GetComponent<EnemyHealth> ().TakeDamage (dealDamage, 1);
+			col.gameObject.GetComponent<EnemyHealth> ().TakeDamage (dealDamage);
 		}
 	}
 }
