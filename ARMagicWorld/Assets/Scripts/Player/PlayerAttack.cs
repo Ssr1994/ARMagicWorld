@@ -11,11 +11,13 @@ public class PlayerAttack : MonoBehaviour
 	public GameObject Shield;
 	public GameObject lightningStrike;
 	public GameObject lightningBlast;
+	public GameObject MagicCircle;
 	public Transform shieldTransform;
 	public Transform fireballTransform;
 	float timeBetweenShot = 0.8f;
 
 	GameObject target = null;
+	GameObject targetHighlight = null;
     float timer;
 //    int shootableMask;
 	Rigidbody playerRigidbody;
@@ -43,6 +45,7 @@ public class PlayerAttack : MonoBehaviour
 		anim = GetComponent<Animation> ();
 		playerRigidbody = GetComponent<Rigidbody> ();
 		playerHealth = GetComponent<PlayerHealth> ();
+		targetHighlight = Instantiate (MagicCircle, Vector3.zero, Quaternion.identity) as GameObject;
 	}
 
     void Update ()
@@ -73,6 +76,20 @@ public class PlayerAttack : MonoBehaviour
 //		if (Input.touchCount == 1 && Input.GetTouch (0).phase == TouchPhase.Began)
 //			isDefaultSkill = !isDefaultSkill;
 		#endif
+
+		// Autofocus
+		if (target == null) {
+			GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
+			if (enemy == null)
+				targetHighlight.SetActive (false);
+			else {
+				target = enemy;
+				targetHighlight.transform.position = target.transform.position;
+			}
+		} else {
+			targetHighlight.SetActive(true);
+			targetHighlight.transform.position = target.transform.position;
+		}
 
 		//condition that player can attack after time interval and there is target and target has health and player has health
 		if (target != null && fireballTimer >= timeBetweenShot && !anim.IsPlaying("Wound")
