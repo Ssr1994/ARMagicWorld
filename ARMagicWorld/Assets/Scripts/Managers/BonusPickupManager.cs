@@ -3,7 +3,6 @@ using System.Collections;
 
 public class BonusPickupManager : MonoBehaviour {
 	public GameObject flareBonus;
-	//public GameObject imageTarget;
 	public int scoreToSpawnFlare;
 	public Transform[] flareSpawnPoint;
 
@@ -18,7 +17,6 @@ public class BonusPickupManager : MonoBehaviour {
 			if (instantiatedFlare == null) {
 				int index = Random.Range (0, flareSpawnPoint.Length);
 				instantiatedFlare = Instantiate (flareBonus, flareSpawnPoint [index].position, flareSpawnPoint [index].rotation) as GameObject;
-				//instantiatedFlare.transform.parent = imageTarget.transform;
 			}
 			prevBonusScore = ScoreManager.score;
 		}

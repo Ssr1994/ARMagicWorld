@@ -6,7 +6,6 @@ public class HeartController : MonoBehaviour {
 	public int healthPoints = 20;
 
 	void OnTriggerEnter(Collider col) {
-		Debug.Log ("Trigger");
 		if (col.gameObject.CompareTag ("Player")) {
 			PlayerHealth playerHealth = col.gameObject.GetComponent<PlayerHealth>();
 			playerHealth.currentHealth += healthPoints;
