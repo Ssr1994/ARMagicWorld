@@ -26,10 +26,10 @@ public class GameOverManager : MonoBehaviour
 
 			// .. if it reaches the restart delay...
 			if(restartTimer >= restartDelay)
-				Application.LoadLevel(Application.loadedLevel);
+				Application.LoadLevel("Start");
 		}
 
-		if (Input.GetKeyDown (KeyCode.Escape)) {
+		if (Input.touchCount == 2 && Input.GetTouch(1).phase == TouchPhase.Began) {
 			paused = !paused;
 			if (paused)
 				Time.timeScale = 0f;

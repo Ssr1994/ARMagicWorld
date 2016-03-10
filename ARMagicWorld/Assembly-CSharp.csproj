@@ -63,6 +63,7 @@
      <Compile Include="Assets\Common\UIFramework\SceneViewManager.cs" />
      <Compile Include="Assets\Common\UIFramework\SplashScreenView.cs" />
      <Compile Include="Assets\Lowpoly Township Set\CameraController.cs" />
+     <Compile Include="Assets\Scripts\ButtonClick.cs" />
      <Compile Include="Assets\Scripts\Camera\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\Enemy\EnemyAttack.cs" />
      <Compile Include="Assets\Scripts\Enemy\EnemyHealth.cs" />
@@ -122,6 +123,7 @@
      <Compile Include="Assets\Vuforia\Scripts\WireframeBehaviour.cs" />
      <Compile Include="Assets\Vuforia\Scripts\WireframeTrackableEventHandler.cs" />
      <Compile Include="Assets\Vuforia\Scripts\WordBehaviour.cs" />
+     <Compile Include="Assets\temp.cs" />
      <None Include="Assets\Magician - Adventure Heroes\Materials\Toony-Basic.shader" />
      <None Include="Assets\link.xml" />
      <None Include="Assets\Vuforia\Shaders\VertexLitWithZ.shader" />

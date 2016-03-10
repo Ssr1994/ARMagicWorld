@@ -19,10 +19,10 @@ public class PlayerAttack : MonoBehaviour
 	GameObject target = null;
 	GameObject targetHighlight = null;
     float timer;
-//    int shootableMask;
+    int shootableMask;
 	Rigidbody playerRigidbody;
 	float effectsDisplayTime;
-//	float camRayLength = 100f;
+	float camRayLength = 100f;
 	float fireballTimer = 0f;
 	float lightningTimer = 0f;
 	Animation anim;
@@ -30,13 +30,19 @@ public class PlayerAttack : MonoBehaviour
 	bool castAnimated = false;
 	PlayerHealth playerHealth;
 	bool enemyInRange = false;
-//	bool isDefaultSkill = true;
 	int holyFireDamage = 90;
 	int strikeDamage = 100;
+	AudioSource tornadoSound;
+	AudioSource holyFireSound;
+	AudioSource lightningStrikeSound;
 
     void Awake ()
     {
-//        shootableMask = LayerMask.GetMask ("Shootable");
+        shootableMask = LayerMask.GetMask ("Shootable");
+		AudioSource[] audios = GetComponents<AudioSource> ();
+		tornadoSound = audios [1];
+		lightningStrikeSound = audios [2];
+		holyFireSound = audios [3];
     }
 
 	void Start(){
@@ -59,9 +65,6 @@ public class PlayerAttack : MonoBehaviour
 				target = enemyHit.collider.gameObject;
 			}
 		}
-		// switch skill
-		if (Input.GetMouseButtonDown(1))
-			isDefaultSkill = !isDefaultSkill;
 		#elif ((UNITY_ANDROID || UNITY_IOS) && !GEARVR)
 		foreach (Touch touch in Input.touches) {
 			if (touch.phase != TouchPhase.Ended) {
@@ -77,15 +80,18 @@ public class PlayerAttack : MonoBehaviour
 //			isDefaultSkill = !isDefaultSkill;
 		#endif
 
-		// Autofocus
 		if (target == null) {
-			GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
-			if (enemy == null)
+			if (EnemyManager.enemyNum > 5) {
+				// Autofocus
+				GameObject enemy = GameObject.FindGameObjectWithTag("Enemy");
+				if (enemy == null)
+					targetHighlight.SetActive (false);
+				else {
+					target = enemy;
+					targetHighlight.transform.position = target.transform.position;
+				}
+			} else
 				targetHighlight.SetActive (false);
-			else {
-				target = enemy;
-				targetHighlight.transform.position = target.transform.position;
-			}
 		} else {
 			targetHighlight.SetActive(true);
 			targetHighlight.transform.position = target.transform.position;
@@ -96,11 +102,7 @@ public class PlayerAttack : MonoBehaviour
 		    && target.GetComponent<EnemyHealth> ().currentHealth > 0 && playerHealth.currentHealth > 0) {
 //			fireballTimer = 0f;
 			if (!enemyInRange) {
-//				if (isDefaultSkill)
-//					AnimateShoot();
-//				else 
-//					AnimateCast();
-				if (Input.gyro.userAcceleration.z > 0.16f)
+				if (Input.gyro.userAcceleration.z > 0.14f)
 					AnimateShoot();
 				else if (Input.gyro.userAcceleration.y > 0.12f)
 					AnimateCast();
@@ -123,6 +125,7 @@ public class PlayerAttack : MonoBehaviour
 			Vector3 playerToEnemy = target.transform.position - transform.position;
 			GameObject fireball = Instantiate (Fireball, fireballTransform.position, Quaternion.LookRotation (playerToEnemy)) as GameObject;
 			fireball.GetComponent<Fireball>().Target = target;
+			tornadoSound.Play();
 //			target = null;
 			shotAnimated = false;
 		}
@@ -144,6 +147,7 @@ public class PlayerAttack : MonoBehaviour
 		TurnToEnemy ();
 		anim.Play ("Skill03");
 		Instantiate (HolyFire, target.transform.position, target.transform.rotation);
+		holyFireSound.Play ();
 		target.GetComponent<EnemyHealth>().TakeDamage(holyFireDamage);
 		fireballTimer = 0f;
 	}
@@ -157,6 +161,7 @@ public class PlayerAttack : MonoBehaviour
 	IEnumerator InitLightnings(GameObject enemy) {
 		Instantiate (lightningStrike, enemy.transform.position+enemy.transform.up*0.15f, Quaternion.identity);
 		Instantiate (lightningBlast, enemy.transform.position, Quaternion.identity);
+		lightningStrikeSound.Play ();
 		EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth> ();
 		enemyHealth.TakeDamage (strikeDamage);
 		
