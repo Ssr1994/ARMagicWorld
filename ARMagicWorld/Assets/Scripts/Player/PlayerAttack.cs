@@ -14,8 +14,8 @@ public class PlayerAttack : MonoBehaviour
 	public GameObject MagicCircle;
 	public Transform shieldTransform;
 	public Transform fireballTransform;
-	float timeBetweenShot = 0.8f;
 
+	float timeBetweenShot = 0.8f;
 	GameObject target = null;
 	GameObject targetHighlight = null;
     float timer;
